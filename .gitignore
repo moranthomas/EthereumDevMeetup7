@@ -1,11 +1,12 @@
 # dependencies
-/node_modules
+/Utils/node_modules
+/Wallet/node_modules
 
 # testing
 /coverage
 
 # production
-/build
+Wallet/build
 
 # misc
 .DS_Store
