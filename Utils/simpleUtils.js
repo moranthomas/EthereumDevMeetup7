@@ -23,7 +23,8 @@ web3.eth.getGasPrice().then(function(gasPrice) {
 const axios = require('axios');
 let ethPriceinUSD;
 
-const address = '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'  // account address
+const address = '0xde0E025cf7C4AF2AAb3B0a896803ECC8253e18dF';  // account address
+
 const vaddress = '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B'; // Vitalik
 
 axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
@@ -41,21 +42,32 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
 );
 
 
-const fs = require('fs');
-const contract = JSON.parse(fs.readFileSync('../Wallet/build/contracts/Wallet.json', 'utf8'));
-console.log(JSON.stringify(contract.abi));
+  /* Get the contract ABI */
+  const fs = require('fs');
+  const contractJSON = JSON.parse(fs.readFileSync('../Wallet/build/contracts/Wallet.json', 'utf8'));
+  const abi = JSON.stringify(contractJSON.abi);
+  console.log(abi);
+
+  const real_abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"save","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"spend","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"balance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];
 
 
-  const abi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" } ], "name": "save", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "address", "name": "recipient", "type": "address" } ], "name": "spend", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "balance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true } ];
+  const wallet_contract_address = '0x3B3C404823AB4da690b51a87A0d22cd527DC7c90';
+  const WalletContract = new web3.eth.Contract(real_abi, wallet_contract_address);
 
-  const wallet_contract_address = '0x1A499a564CeB7E260d6E7A5212e5140593Fdede9';
+  var actualBalanceInContract = web3.eth.getBalance(wallet_contract_address,
+    (err, result) => {
+      console.log('Actual Balance in Contract  = ' + result);
+  });
 
-  const WalletContract = new web3.eth.Contract(abi, wallet_contract_address);
 
   //var walletContractInstance = WalletContract.at(wallet_contract_address);
+  WalletContract.methods.balance().call((err, result) => {
+    console.log('Balance in smart contract is: '  + result);
+  });
 
   const account1 = 0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13;
   const account2 = 0xbe3B42D5963b72Ef8324670FB950E6E71a686648;
+
   // Build the transaction
   const txObject = {
     nonce:    web3.utils.toHex(130),
@@ -64,9 +76,6 @@ console.log(JSON.stringify(contract.abi));
     gasLimit: web3.utils.toHex(21000),
     gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
   };
-
-
-  WalletContract.balance().call((err, result) => { console.log(result) });
 
 
   /*web3.eth.call({
