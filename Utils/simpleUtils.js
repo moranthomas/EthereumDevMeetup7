@@ -37,48 +37,67 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
   })
   .catch(error => {
     console.log(error);
-  });
-
-const abi = [
-    { "inputs": [], "name": "last_completed_migration", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "uint256", "name": "completed", "type": "uint256" } ], "name": "setCompleted", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
-];
-
-  //const abi = [{"constant":true,"inputs":[],"name":"mintingFinished","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"mint","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"finishMinting","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"},{"name":"_releaseTime","type":"uint256"}],"name":"mintTimelocked","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[],"name":"MintFinished","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]
-  const address = '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07';
-
-  const contract = new web3.eth.Contract(abi, address)
-
-  contract.methods.totalSupply().call((err, result) => { console.log(result) })
-  contract.methods.name().call((err, result) => { console.log(result) })
-  contract.methods.symbol().call((err, result) => { console.log(result) })
-  contract.methods.balanceOf('0xd26114cd6EE289AccF82350c8d8487fedB8A0C07').call((err, result) => { console.log(result) })
+  }
+);
 
 
-  transferFunds: function () {
-    const _from = this.$refs.fromRef.value
-    const _to = this.$refs.toRef.value
-    const _amount = this.$refs.amountRef.value
-    let self = this
-    var txnObject = {
-        "from":_from,
-        "to": _to,
-        "value": web3.utils.toWei(_amount,'ether'),
-        "gas": 1000,         //(optional)
-        // "gasPrice": 4500000,  (optional)
-        // "data": 'For testing' (optional)
-        // "nonce": 10           (optional)
+const fs = require('fs');
+const contract = JSON.parse(fs.readFileSync('../Wallet/build/contracts/Wallet.json', 'utf8'));
+console.log(JSON.stringify(contract.abi));
+
+
+  const abi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" } ], "name": "save", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "address", "name": "recipient", "type": "address" } ], "name": "spend", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "balance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true } ];
+
+  const wallet_contract_address = '0x1A499a564CeB7E260d6E7A5212e5140593Fdede9';
+
+  const WalletContract = new web3.eth.Contract(abi, wallet_contract_address);
+
+  //var walletContractInstance = WalletContract.at(wallet_contract_address);
+
+  const account1 = 0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13;
+  const account2 = 0xbe3B42D5963b72Ef8324670FB950E6E71a686648;
+  // Build the transaction
+  const txObject = {
+    nonce:    web3.utils.toHex(130),
+    to:       account2,
+    value:    web3.utils.toHex(web3.utils.toWei('0.1', 'ether')),
+    gasLimit: web3.utils.toHex(21000),
+    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+  };
+
+
+  WalletContract.balance().call((err, result) => { console.log(result) });
+
+
+  /*web3.eth.call({
+    to: wallet_contract_address,
+    data: contract.methods.balanceOf(wallet_contract_address).encodeABI()
+  }).then(balance => {console.log(data)})*/
+
+  /*
+
+  web3.eth.getTransactionCount(account1, (err, txCount) => {
+    // Build the transaction
+    const txObject = {
+      nonce:    web3.utils.toHex(txCount),
+      to:       account2,
+      value:    web3.utils.toHex(web3.utils.toWei('0.1', 'ether')),
+      gasLimit: web3.utils.toHex(21000),
+      gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
     }
 
-    web3.eth.sendTransaction(txnObject, function(error, result){
-        if(error){
-            console.log( "Transaction error" ,error);
-            self.$refs.resultRef.value = "Transaction Failed"
-        }
-        else{
-            //Get transaction hash
-            self.$refs.txHashRef.value = result;
-            self.$refs.resultRef.value = "Transaction Succeeded!"
-        }
-    });
-},
+    // Sign the transaction
+    const tx = new Tx(txObject)
+    tx.sign(privateKey1)
 
+    const serializedTx = tx.serialize()
+    const raw = '0x' + serializedTx.toString('hex')
+
+    // Broadcast the transaction
+    web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+      console.log('txHash:', txHash)
+      // Now go check etherscan to see the transaction!
+    });
+  });
+
+*/

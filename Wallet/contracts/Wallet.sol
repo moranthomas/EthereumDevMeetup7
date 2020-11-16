@@ -1,6 +1,7 @@
 pragma solidity ^0.6.0;
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+//import 'https://github.com/OpenZeppelin/openzeppelin-contractstoken/ERC20/IERC20.sol';
 
 interface IYDAI {
     function deposit(uint _amount) external;
@@ -42,7 +43,7 @@ contract Wallet {
         yDai.deposit(amount);
     }
 
-    function balance() external view returns(uint) {
+    function balance() public view returns(uint) {
         uint price = yDai.getPricePerFullShare();
         uint balanceShares = yDai.balanceOf(address(this));
         return balanceShares * price;
