@@ -65,6 +65,49 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
     console.log('Balance in smart contract is: '  + result);
   });
 
+
+
+  // Set Account
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+  // Set Contract Abi
+  var contractAbi = [ { "inputs": [], "name": "data", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [], "name": "getData", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "string", "name": "_data", "type": "string" } ], "name": "setData", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
+  // Set Contract Address
+  var contractAddress = '0xd6533304C191965Eea88F9b7d1F7da81993fF780';
+    // Set the Contract
+  var StorageContract = new web3.eth.Contract(contractAbi, contractAddress);
+
+  // Estimate gas using the callback
+  StorageContract.methods.setData('Black').estimateGas({gas: 3000000}, function(error, gasAmount){
+    if(gasAmount == 3000000)
+      console.log('Method ran out of gas');
+    else{
+      console.log('Gas Amount: ' + gasAmount + ' thats plenty gas Jim!' );
+    }
+  });
+
+  // Estimate Gas - using the promise
+  StorageContract.methods.setData('Black').estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  .then(function(gasAmount){
+      console.log('should cost this much gas: ' + gasAmount);
+  })
+  .catch(function(error){
+      console.log('Not enuff gas');
+  });
+
+
+  // Set the Data
+  StorageContract.methods.setData('BLACK').send((err, data) => {
+    console.log('SETTING STORAGE DATA = ' + data);
+  });
+
+  // Display The Data
+  StorageContract.methods.getData().call((err, data) => {
+    console.log('STORAGE DATA = ' + data);
+  });
+
+
+
+
   const account1 = 0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13;
   const account2 = 0xbe3B42D5963b72Ef8324670FB950E6E71a686648;
 
