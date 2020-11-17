@@ -46,7 +46,7 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
   const abi = JSON.stringify(contractJSON.abi);
   console.log(abi);
 
-  const real_abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"save","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"spend","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"balance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];
+  /*const real_abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"save","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"spend","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"balance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];
 
 
   const wallet_contract_address = '0x1B418cE4054A5Ec4fE054dff7EC79aA90EcA07a5';
@@ -57,14 +57,16 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
       console.log('Actual Balance in Contract  = ' + result);
   });
 
+  */
+
   /*****  Wallet Contract interactions *****/
 
   // Set Account
   web3.eth.defaultAccount = web3.eth.accounts[0];
   // Set Contract Abi
-  var contractAbi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" } ], "name": "save", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "address", "name": "recipient", "type": "address" } ], "name": "spend", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "balance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true } ];
+  var contractAbi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "data", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" } ], "name": "save", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "address", "name": "recipient", "type": "address" } ], "name": "spend", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "balance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true } ];
   // Set Contract Address
-  var contractAddress = '0x1B418cE4054A5Ec4fE054dff7EC79aA90EcA07a5';
+  var contractAddress = '0x2A36D4572E6c7644e14dE8eD96Db8E8BD9CE9505';
     // Set the Contract
   var WalletContract = new web3.eth.Contract(contractAbi, contractAddress);
 
@@ -78,15 +80,15 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
   });
 
   // Estimate Gas - using the promise
-  StorageContract.methods.balance().estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  WalletContract.methods.balance().estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
   .then(function(gasAmount){
       console.log('should cost this much gas: ' + gasAmount);
   })
   .catch(function(error){
-      console.log('Not enuff gas');
+      console.log('Not enuff gas and error = ' + error);
   });
 
-  StorageContract.methods.balance().call((err, data) => {
+  WalletContract.methods.balance().call((err, data) => {
     console.log(' Wallet balance  = ' + data);
   });
 
