@@ -77,7 +77,7 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
   var StorageContract = new web3.eth.Contract(contractAbi, contractAddress);
 
   // Estimate gas using the callback
-  StorageContract.methods.setData('Black').estimateGas({gas: 3000000}, function(error, gasAmount){
+  StorageContract.methods.setData('Yellow').estimateGas({gas: 3000000}, function(error, gasAmount){
     if(gasAmount == 3000000)
       console.log('Method ran out of gas');
     else{
@@ -86,7 +86,7 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
   });
 
   // Estimate Gas - using the promise
-  StorageContract.methods.setData('Black').estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  StorageContract.methods.setData('Sky Blue').estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
   .then(function(gasAmount){
       console.log('should cost this much gas: ' + gasAmount);
   })
@@ -94,18 +94,18 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
       console.log('Not enuff gas');
   });
 
-
-  // Set the Data
-  StorageContract.methods.setData('BLACK').send((err, data) => {
-    console.log('SETTING STORAGE DATA = ' + data);
-  });
-
-  // Display The Data
   StorageContract.methods.getData().call((err, data) => {
-    console.log('STORAGE DATA = ' + data);
+    console.log(' STORAGE DATA BEFORE  = ' + data);
   });
 
-
+  StorageContract.methods.setData('Blue Sky').send({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  .then(function(receipt){
+    console.log(' SETTING STORAGE DATA: transaction Hash = ' + receipt.transactionHash + ', Gas used = ' + receipt.gasUsed);
+      // Display The Data
+    StorageContract.methods.getData().call((err, data) => {
+      console.log(' STORAGE DATA NOW = ' + data);
+    });
+  });
 
 
   const account1 = 0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13;
