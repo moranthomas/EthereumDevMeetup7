@@ -38,7 +38,7 @@ axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currenc
 const fs = require('fs');
 const contractJSON = JSON.parse(fs.readFileSync('../Wallet/build/contracts/Storage.json', 'utf8'));
 const abi = JSON.stringify(contractJSON.abi);
-console.log(abi);
+//console.log(abi);
 
 
 /*****  Storage Contract interactions *****/
