@@ -38,6 +38,6 @@ exports.getAddressBalance = function getAddressBalance(address) {
 /* Get Contract ABI */
 exports.getContractABI = function getContractABI(JsonFile) {
   const contractJSON = JSON.parse(fs.readFileSync(JsonFile, 'utf8'));
-  const abi = JSON.stringify(contractJSON.abi);
-  return abi;
+  const abiString = JSON.stringify(contractJSON.abi);
+  return contractJSON.abi;
 }

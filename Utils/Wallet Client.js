@@ -19,28 +19,18 @@
 
   web3utils.getCurrentGasPrice();
   web3utils.getAddressBalance('0xde0E025cf7C4AF2AAb3B0a896803ECC8253e18dF');
-  const abi = web3utils.getContractABI('../Wallet/build/contracts/Wallet.json');
-  console.log(abi);
 
-  /*const real_abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"save","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"spend","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"balance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function","constant":true}];
-  const wallet_contract_address = '0x1B418cE4054A5Ec4fE054dff7EC79aA90EcA07a5';
-  const WalletContract = new web3.eth.Contract(real_abi, wallet_contract_address);
-
-  var actualBalanceInContract = web3.eth.getBalance(wallet_contract_address,
-    (err, result) => {
-      console.log('Actual Balance in Contract  = ' + result);
-  });
-  */
 
   /*****  Wallet Contract interactions *****/
 
   // Set Account
   web3.eth.defaultAccount = web3.eth.accounts[0];
   // Set Contract Abi
-  var contractAbi = [ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "data", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" } ], "name": "save", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "address", "name": "recipient", "type": "address" } ], "name": "spend", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "balance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function", "constant": true } ];
-  // Set Contract Address
+   var contractAbi = web3utils.getContractABI('../Wallet/build/contracts/Wallet.json');
+  // Set Contract Address (retrieve from truffle console > let instance = await Wallet.deployed(), instance.address)
   var contractAddress = '0x2A36D4572E6c7644e14dE8eD96Db8E8BD9CE9505';
-    // Set the Contract
+
+  // Create Wallet Contract
   var WalletContract = new web3.eth.Contract(contractAbi, contractAddress);
 
   // Estimate gas using the callback
