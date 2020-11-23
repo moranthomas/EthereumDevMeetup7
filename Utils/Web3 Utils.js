@@ -10,11 +10,10 @@ let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
 
 web3 = new Web3(web3Provider);
 
-/* Get Current Gas Price */
+/* Get Current Average Gas Price */
 exports.getCurrentGasPrice = function getGasPrice() {
   web3.eth.getGasPrice().then(function(gasPrice) {
-    console.log(`Gas Price in Wei: ${gasPrice}`);
-    console.log(`Gas Price in GWei: ${gasPrice / 1000000000}`);
+    console.log(`Average Gas Price in GWei: ${gasPrice / 1000000000}`);
   });
 }
 

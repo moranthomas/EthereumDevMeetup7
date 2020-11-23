@@ -23,45 +23,38 @@
 
   /*****  Wallet Contract interactions *****/
 
-  // Set Account
+  // Set Default Account
   web3.eth.defaultAccount = web3.eth.accounts[0];
   // Set Contract Abi
    var contractAbi = web3utils.getContractABI('../Wallet/build/contracts/Wallet.json');
   // Set Contract Address (retrieve from truffle console > let instance = await Wallet.deployed(), instance.address)
-  var contractAddress = '0x2A36D4572E6c7644e14dE8eD96Db8E8BD9CE9505';
+  var contractAddress = '0xbeC2d16EAA379617d3087492bd274Dbc92F87141';
 
   // Create Wallet Contract
   var WalletContract = new web3.eth.Contract(contractAbi, contractAddress);
 
-  // Estimate gas using the callback
-  WalletContract.methods.balance().estimateGas({gas: 3000000}, function(error, gasAmount){
-    if(gasAmount == 3000000)
-      console.log('Method ran out of gas');
-    else{
-      console.log('Gas Amount: ' + gasAmount + ' thats plenty gas Jim!' );
-    }
-  });
+  console.log(WalletContract.methods)
 
-  // Estimate Gas - using the promise
-  WalletContract.methods.balance().estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
-  .then(function(gasAmount){
-      console.log('should cost this much gas: ' + gasAmount);
-  })
-  .catch(function(error){
-      console.log('Not enuff gas and error = ' + error);
-  });
-
+  // Get balance in Wallet
   WalletContract.methods.balance().call((err, data) => {
     console.log(' Wallet balance  = ' + data);
   });
 
-  /*
-  StorageContract.methods.setData('Blue Sky').send({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  // Estimate Gas using the promise
+  WalletContract.methods.balance().estimateGas({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
+  .then(function(gasAmount){
+      console.log('This call should cost this much gas: ' + gasAmount);
+  })
+  .catch(function(error){
+      console.log('Not enuff gas, error = ' + error);
+  });
+
+
+  /*WalletContract.methods.save(1010).send({from: '0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13'})
   .then(function(receipt){
     console.log(' SETTING STORAGE DATA: transaction Hash = ' + receipt.transactionHash + ', Gas used = ' + receipt.gasUsed);
       // Display The Data
     StorageContract.methods.getData().call((err, data) => {
       console.log(' STORAGE DATA NOW = ' + data);
     });
-  });
-  */
+  });*/
