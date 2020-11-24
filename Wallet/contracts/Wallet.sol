@@ -59,10 +59,11 @@ address admin;
 
 
     /* Extra Callable */
-    function payMe(address sender) payable public returns(bool success) {
-        balance += msg.value;
+    function payMe(address sender, uint amount) payable public returns(bool success) {
+        balance += amount;
         return true;
     }
+
 
     function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
         if (balances[msg.sender] < amount) return false;
