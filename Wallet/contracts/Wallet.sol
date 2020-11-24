@@ -13,8 +13,8 @@ interface IYDAI {
 contract Wallet {
 address admin;
 
-    IERC20 dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
-    IYDAI yDai = IYDAI(0xC2cB1040220768554cf699b0d863A3cd4324ce32);
+    IERC20 dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);        // from etherscan
+    IYDAI yDai = IYDAI(0xC2cB1040220768554cf699b0d863A3cd4324ce32);         // from yearn finance registry
 
     uint public data = 9;
     uint public balance = 0;
@@ -28,6 +28,7 @@ address admin;
     }
 
     function save(uint amount) external {
+        // No need for admin check here.
         dai.transferFrom(msg.sender, address(this), amount);
         _save(amount);
     }
@@ -39,11 +40,11 @@ address admin;
 
     function spend(uint amount, address recipient) external {
         require(msg.sender == admin, 'only admin');
-        uint balanceShares = yDai.balanceOf(address(this));
-        yDai.withdraw(balanceShares);
-        dai.transfer(recipient, amount);
-        uint balanceDai = dai.balanceOf(address(this));
+        uint balanceShares = yDai.balanceOf(address(this));     //get the balance in yDAi
+        yDai.withdraw(balanceShares);                           //withdraw from Yearn
+        dai.transfer(recipient, amount);                        //recipient is us but can be anyone
 
+        uint balanceDai = dai.balanceOf(address(this));         //re-invest any extra balance
         if (balanceDai > 0 ) {
             _save(balanceDai);
         }
