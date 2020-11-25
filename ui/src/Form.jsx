@@ -13,8 +13,7 @@ export class Form extends Component {
         //this.getContractABI('../../Wallet/build/contracts/Wallet.json');
         this.getContractAbiFromConfig();
         this.getWalletAddressFromConfig();
-        this.createContract();
-        
+
     }
 
     constructor(props) {
@@ -23,10 +22,12 @@ export class Form extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
         this.state = {
             account: '',
             contractABI: '',
             contractAddress: '',
+            contractInstance: '',
         };
     }
 
@@ -35,8 +36,11 @@ export class Form extends Component {
     }
 
     handleSubmit(event) {
-        alert('This amount of DAI was deposited : ' + this.state.value);
         event.preventDefault();
+        this.createContract();
+        let result = this.state.contractInstance.payMe.sendTransaction(this.state.account, this.state.value);
+        alert('This amount of DAI was deposited : ' + this.state.value);
+
     }
 
     async loadBlockchainData() {
@@ -71,12 +75,24 @@ export class Form extends Component {
         const contractInstance  = new web3.eth.Contract(contractAbi, contractAddress);
         let contractMethods = await contractInstance.methods;
         console.log(contractMethods);
-        return contractInstance;
+        this.setState( {contractInstance: contractInstance});
     }
+
 
     render() {
         const inputStyle = { padding: '5px', margin: '30px' };
         const accountsStyle = { fontSize: 16 };
+
+        /* Sending ether from one address to another
+        var txnObject = {
+            "from":"0x9b7421fC327E1B5123Ff9aDDD4B21d44557a3a13",
+            "to":"0x36c67ACAB3FA24b3Fd100437786F1314FD860921",
+            "value": web3.utils.toWei(1, 'ether'),
+            "gas":4712388,
+            gasPrice: 100000000000
+        };
+        web3.eth.sendTransaction(txnObject, function(error, result){console.log('transaction sent : ' + result);});
+        */
 
         return (
             <div>
