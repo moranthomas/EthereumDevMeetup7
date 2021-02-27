@@ -28,6 +28,7 @@ export class Form extends Component {
             contractABI: '',
             contractAddress: '',
             contractInstance: '',
+            accountBalance: '',
         };
     }
 
@@ -48,8 +49,11 @@ export class Form extends Component {
         let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
         const web3 = new Web3(web3Provider);
         const accounts = await web3.eth.getAccounts();
+        const balance = await web3.eth.getBalance(accounts[4]);
+        const balanceInEth = web3.utils.fromWei(balance, 'ether');
         console.log(accounts);
-        this.setState({ account: accounts[0] });
+        console.log(balance);
+        this.setState({ account: accounts[4], accountBalance: balanceInEth});
     }
 
     getContractAbiFromConfig() {
@@ -102,6 +106,7 @@ export class Form extends Component {
                 </label>
                 <input type="submit" value="Submit" />
                 <p style = {accountsStyle} >Your account: {this.state.account}</p>
+                <p style = {accountsStyle} >Your account balance: {this.state.accountBalance}</p>
             </form>
             </div>
         )
