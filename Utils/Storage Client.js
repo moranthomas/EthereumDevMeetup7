@@ -3,9 +3,15 @@ const Web3 = require('web3');
 const infuraUrl = "https://mainnet.infura.io/v3/53dbf207e63c42e99cacb63c2d41ec4f";
 const ganacheUrl = "http://localhost:8545";
 
-let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
+let
 
-web3 = new Web3(web3Provider);
+
+ New Web3.providers.HttpProvider(ganacheUrl);
+
+web3
+
+
+ New Web3(web3Provider);
 
 
 // Get Current Gas Price
@@ -46,11 +52,26 @@ const abi = JSON.stringify(contractJSON.abi);
 // Set Account
 web3.eth.defaultAccount = web3.eth.accounts[0];
 // Set Contract Abi
-var contractAbi = [ { "inputs": [], "name": "data", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [], "name": "getData", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "string", "name": "_data", "type": "string" } ], "name": "setData", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
+var contractAbi = [ { "inputs": [], "
+
+ Name": "data", "outputs": [ { "internalType": "string", "
+
+ Name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [], "
+
+ Name": "getData", "outputs": [ { "internalType": "string", "
+
+ Name": "", "type": "string" } ], "stateMutability": "view", "type": "function", "constant": true }, { "inputs": [ { "internalType": "string", "
+
+ Name": "_data", "type": "string" } ], "
+
+ Name": "setData", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
 // Set Contract Address
 var contractAddress = '0xd6533304C191965Eea88F9b7d1F7da81993fF780';
   // Set the Contract
-var StorageContract = new web3.eth.Contract(contractAbi, contractAddress);
+var
+
+
+ New web3.eth.Contract(contractAbi, contractAddress);
 
 // Estimate gas using the callback
 StorageContract.methods.setData('Yellow').estimateGas({gas: 3000000}, function(error, gasAmount){

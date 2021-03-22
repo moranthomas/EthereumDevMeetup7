@@ -45,8 +45,14 @@ export class Form extends Component {
 
     async loadBlockchainData() {
         const ganacheUrl = "http://localhost:8545";
-        let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
-        const web3 = new Web3(web3Provider);
+
+
+
+ New Web3.providers.HttpProvider(ganacheUrl);
+
+
+
+ New Web3(web3Provider);
         const accounts = await web3.eth.getAccounts();
         console.log(accounts);
         this.setState({ account: accounts[0] });
@@ -70,9 +76,18 @@ export class Form extends Component {
 
     async createContract() {
         const ganacheUrl = "http://localhost:8545";
-        let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
-        const web3 = new Web3(web3Provider);
-        const contractInstance  = new web3.eth.Contract(contractAbi, contractAddress);
+
+
+
+ New Web3.providers.HttpProvider(ganacheUrl);
+
+
+
+ New Web3(web3Provider);
+
+
+
+ New web3.eth.Contract(contractAbi, contractAddress);
         let contractMethods = await contractInstance.methods;
         console.log(contractMethods);
         this.setState( {contractInstance: contractInstance});

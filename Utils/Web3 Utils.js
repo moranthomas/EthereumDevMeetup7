@@ -6,9 +6,15 @@ const fs = require('fs');
 const infuraUrl = "https://mainnet.infura.io/v3/53dbf207e63c42e99cacb63c2d41ec4f";
 const ganacheUrl = "http://localhost:8545";
 
-let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
+let
 
-web3 = new Web3(web3Provider);
+
+ New Web3.providers.HttpProvider(ganacheUrl);
+
+web3
+
+
+ New Web3(web3Provider);
 
 /* Get Current Average Gas Price */
 exports.getCurrentGasPrice = function getGasPrice() {
