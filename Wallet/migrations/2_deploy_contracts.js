@@ -1,6 +1,6 @@
-var Wallet  = artifacts.require("./Wallet.sol");
-var Storage  = artifacts.require("./Storage.sol");
-var MetaCoin  = artifacts.require("./MetaCoin.sol");
+var Wallet  = artifacts.require("../contracts/Wallet.sol");
+var Storage  = artifacts.require("./contracts/Storage.sol");
+var MetaCoin  = artifacts.require("./contracts/MetaCoin.sol");
 
 module.exports = function (deployer) {
   deployer.deploy(Wallet);
