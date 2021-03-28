@@ -8,7 +8,7 @@ import { contractAbi, contractAddress } from './config';
 export class Form extends Component {
 
     componentWillMount() {
-
+        this.ganacheUrl = "http://localhost:7545";
         this.loadBlockchainData();
         //this.getContractABI('../../Wallet/build/contracts/Wallet.json');
         this.getContractAbiFromConfig();
@@ -45,8 +45,8 @@ export class Form extends Component {
     }
 
     async loadBlockchainData() {
-        const ganacheUrl = "http://localhost:8545";
-        let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
+
+        let web3Provider = new Web3.providers.HttpProvider(this.ganacheUrl);
         const web3 = new Web3(web3Provider);
         const accounts = await web3.eth.getAccounts();
         const balance = await web3.eth.getBalance(accounts[4]);
@@ -73,8 +73,8 @@ export class Form extends Component {
     }
 
     async createContract() {
-        const ganacheUrl = "http://localhost:8545";
-        let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
+
+        let web3Provider = new Web3.providers.HttpProvider(this.ganacheUrl);
         const web3 = new Web3(web3Provider);
         const contractInstance  = new web3.eth.Contract(contractAbi, contractAddress);
         let contractMethods = await contractInstance.methods;
@@ -105,8 +105,8 @@ export class Form extends Component {
                     <input style={inputStyle} type="text" value={this.state.value} onChange={this.handleChange} />
                 </label>
                 <input type="submit" value="Submit" />
-                <p style = {accountsStyle} >Your account: {this.state.account}</p>
-                <p style = {accountsStyle} >Your account balance: {this.state.accountBalance}</p>
+                <p style = {accountsStyle} >Address : {this.state.account.substring(0,13)}</p>
+                <p style = {accountsStyle} >Account balance: {this.state.accountBalance} (Eth) </p>
             </form>
             </div>
         )
