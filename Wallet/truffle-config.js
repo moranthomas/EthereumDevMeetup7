@@ -32,11 +32,15 @@ module.exports = {
    * run `develop` or `test`. You can ask a truffle command to use a specific
    * network from the command line, e.g
    *
-   * $ truffle test --network <network-name>
+   * $ truffle test --network <network-
+
+ Name>
    */
 
   networks: {
-    // Useful for testing. The `development` name is special - truffle uses it by default
+    // Useful for testing. The `development`
+
+ Name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
@@ -59,7 +63,10 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     // ropsten: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
+
+
+
+ New HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
     // network_id: 3,       // Ropsten's id
     // gas: 5500000,        // Ropsten has a lower block limit than mainnet
     // confirmations: 2,    // # of confs to wait between deployments. (default: 0)
@@ -68,7 +75,10 @@ module.exports = {
     // },
     // Useful for private networks
     // private: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
+
+
+
+ New HDWalletProvider(mnemonic, `https://network.io`),
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }

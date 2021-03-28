@@ -45,7 +45,6 @@ export class Form extends Component {
     }
 
     async loadBlockchainData() {
-
         let web3Provider = new Web3.providers.HttpProvider(this.ganacheUrl);
         const web3 = new Web3(web3Provider);
         const accounts = await web3.eth.getAccounts();
@@ -73,7 +72,6 @@ export class Form extends Component {
     }
 
     async createContract() {
-
         let web3Provider = new Web3.providers.HttpProvider(this.ganacheUrl);
         const web3 = new Web3(web3Provider);
         const contractInstance  = new web3.eth.Contract(contractAbi, contractAddress);

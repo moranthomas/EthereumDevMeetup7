@@ -4,14 +4,22 @@ import Form from './Form';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div class
 
-        <p className="App-link" >
+ Name="App">
+      <header class
+
+ Name="App-header">
+
+        <p class
+
+ Name="App-link" >
           Defi Wallet with Yearn Finance and React
         </p>
 
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} class
+
+ Name="App-logo" alt="logo" />
         <Form/>
       </header>
     </div>

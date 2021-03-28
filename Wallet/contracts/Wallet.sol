@@ -50,7 +50,7 @@ address admin;
         }
     }
 
-    // Renamed to avoid conflict with balance variable when calling
+    // Re-Named to avoid conflict with balance variable when calling
     function balanceFunction() public view returns(uint) {
         uint price = yDai.getPricePerFullShare();
         uint balanceShares = yDai.balanceOf(address(this));
