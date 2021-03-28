@@ -45,7 +45,7 @@ export class Form extends Component {
     }
 
     async loadBlockchainData() {
-        const ganacheUrl = "http://localhost:8545";
+        const ganacheUrl = "http://localhost:7545";
         let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
         const web3 = new Web3(web3Provider);
         const accounts = await web3.eth.getAccounts();
@@ -73,7 +73,7 @@ export class Form extends Component {
     }
 
     async createContract() {
-        const ganacheUrl = "http://localhost:8545";
+        const ganacheUrl = "http://localhost:7545";
         let web3Provider = new Web3.providers.HttpProvider(ganacheUrl);
         const web3 = new Web3(web3Provider);
         const contractInstance  = new web3.eth.Contract(contractAbi, contractAddress);
@@ -85,7 +85,7 @@ export class Form extends Component {
 
     render() {
         const inputStyle = { padding: '5px', margin: '30px' };
-        const accountsStyle = { fontSize: 16 };
+        const accountsStyle = { fontSize: 16, fontWeight: 600 };
 
         /* Sending ether from one address to another
         var txnObject = {
@@ -105,8 +105,8 @@ export class Form extends Component {
                     <input style={inputStyle} type="text" value={this.state.value} onChange={this.handleChange} />
                 </label>
                 <input type="submit" value="Submit" />
-                <p style = {accountsStyle} >Your account: {this.state.account}</p>
-                <p style = {accountsStyle} >Your account balance: {this.state.accountBalance}</p>
+                <p style = {accountsStyle} >Account Address: {this.state.account.substring(0,13)}</p>
+                <p style = {accountsStyle} >Account balance: {this.state.accountBalance} (Ether)</p>
             </form>
             </div>
         )

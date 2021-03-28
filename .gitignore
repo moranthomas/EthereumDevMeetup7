@@ -1,6 +1,7 @@
 # dependencies
 /Utils/node_modules
 /Wallet/node_modules
+/ui/node_modules
 
 # testing
 /coverage
@@ -14,6 +15,7 @@ Wallet/build
 .env.development.local
 .env.test.local
 .env.production.local
+/ui/.eslintcache
 
 npm-debug.log*
 yarn-debug.log*
